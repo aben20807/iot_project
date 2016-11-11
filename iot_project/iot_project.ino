@@ -27,6 +27,8 @@ int tmp_f = 0, tmp_l = 0, tmp_r = 0;
 int defMode();
 float detectDistance(int, int);
 int isStop(int, int, int);
+void leftt(int);
+void right(int);
 
 void setup() {
     Serial.begin(9600);
@@ -67,104 +69,36 @@ void loop() {
 //        if(distance_front > 50 && distance_leftt > 50 && distance_right > 50){
 //            break;
 //        }
-        if(isStop(distance_front, distance_leftt, distance_right) == 1){
-            analogWrite(motorIn1, 0);
-            analogWrite(motorIn2, 70);
-            analogWrite(motorIn3, 0);
-            analogWrite(motorIn4, 70);
-            delay(50);
-        }
-        else if(mode == RIGHT){//right hand side
-            if(distance_right < 9){
-//                Serial.println("R_re");
-                analogWrite(motorIn1, 0);
-                analogWrite(motorIn2, 70);
-                analogWrite(motorIn3, 0);
-                analogWrite(motorIn4, 70);
-                delay(20);
+        if(mode == RIGHT){
+            if(distance_front < 5){
                 analogWrite(motorIn1, 0);
                 analogWrite(motorIn2, 100);
-                analogWrite(motorIn3, 100);
-                analogWrite(motorIn4, 0);
-                delay(30);
-//                analogWrite(motorIn1, 0);
-//                analogWrite(motorIn2, 0);
-//                analogWrite(motorIn3, 0);
-//                analogWrite(motorIn4, 0);
-//                delay(20);
-            }
-            else{
-//                Serial.println("R_go");
-                analogWrite(motorIn1, 80);
-                analogWrite(motorIn2, 0);
-                analogWrite(motorIn3, 40);
-                analogWrite(motorIn4, 0); 
-//                delay(70);
-//                analogWrite(motorIn1, 0);
-//                analogWrite(motorIn2, 0);
-//                analogWrite(motorIn3, 0);
-//                analogWrite(motorIn4, 0);
-//                delay(10);
-            }
-            if(distance_front < 9){
-                analogWrite(motorIn1, 0);
-                analogWrite(motorIn2, 70);
-                analogWrite(motorIn3, 0);
-                analogWrite(motorIn4, 70);
-                delay(20);
-                analogWrite(motorIn1, 0);
-                analogWrite(motorIn2, 100);
-                analogWrite(motorIn3, 100);
-                analogWrite(motorIn4, 0);
-                delay(30);
-            }
-        }
-        else if(mode == LEFTT){//left hand side
-            if(distance_leftt < 9){
-//                Serial.println("L_re");
-                analogWrite(motorIn1, 0);
-                analogWrite(motorIn2, 70);
-                analogWrite(motorIn3, 0);
-                analogWrite(motorIn4, 70);
-                delay(20);
-                analogWrite(motorIn1, 100);
-                analogWrite(motorIn2, 0);
                 analogWrite(motorIn3, 0);
                 analogWrite(motorIn4, 100);
-                delay(30);
-//                analogWrite(motorIn1, 0);
-//                analogWrite(motorIn2, 0);
-//                analogWrite(motorIn3, 0);
-//                analogWrite(motorIn4, 0);
-//                delay(20);
+                delay(300);
+                analogWrite(motorIn1, 0);
+                analogWrite(motorIn2, 0);
+                analogWrite(motorIn3, 0);
+                analogWrite(motorIn4, 0);
+                delay(500);
+                if(distance_leftt < 8 && distance_right < 8){
+                    right(600);
+                }
+                else if(distance_right < 8){
+                    leftt(300);
+                }
+                else if(distance_leftt < 8){
+                    right(300);
+                }
             }
             else{
-//                Serial.println("L_go");
-                analogWrite(motorIn1, 40);
+                analogWrite(motorIn1, 140);
                 analogWrite(motorIn2, 0);
-                analogWrite(motorIn3, 80);
+                analogWrite(motorIn3, 140);
                 analogWrite(motorIn4, 0);
-//                delay(70);
-//                analogWrite(motorIn1, 0);
-//                analogWrite(motorIn2, 0);
-//                analogWrite(motorIn3, 0);
-//                analogWrite(motorIn4, 0);
-//                delay(10);
-            }
-            if(distance_front < 9){
-                analogWrite(motorIn1, 0);
-                analogWrite(motorIn2, 70);
-                analogWrite(motorIn3, 0);
-                analogWrite(motorIn4, 70);
-                delay(20);
-                analogWrite(motorIn1, 100);
-                analogWrite(motorIn2, 0);
-                analogWrite(motorIn3, 0);
-                analogWrite(motorIn4, 100);
-                delay(30);
             }
         }
-//        Serial.print("\n");
+            
     }
     time = time + inter_time;
 //    delay(inter_time);
@@ -226,5 +160,20 @@ int isStop(int front, int leftt, int right){
         stop_time += inter_time;
         return 0;
     }
+}
+
+void leftt(int delay_t){
+    analogWrite(motorIn1, 0);
+    analogWrite(motorIn2, 80);
+    analogWrite(motorIn3, 80);
+    analogWrite(motorIn4, 0);
+    delay(delay_t);
+}
+void right(int delay_t){
+    analogWrite(motorIn1, 80);
+    analogWrite(motorIn2, 0);
+    analogWrite(motorIn3, 0);
+    analogWrite(motorIn4, 80);
+    delay(delay_t);
 }
 
